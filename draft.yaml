@@ -1,0 +1,37 @@
+models:
+Department:
+    name: string:50
+    manager_id : id foreign:employees.id
+    softDeletes:
+    relationships:
+      hasMany: Employee
+
+Employee:
+    name: string:50
+    phone: string:13 nullable 
+    department_id : id foreign:departments.id nullable 
+    Preferences:
+    softDeletes: 
+    status: enum:pending,successful,failed
+    relationships:
+      belongsTo: Department
+
+Shift:
+    name: string:50
+    start_time: time
+    end_time: time
+    status: enum:pending,successful,failed
+    softDeletes: 
+
+ShiftAssignment:
+    employee_id : id foreign:employees.id
+    shift_id : id foreign:shifts.id
+    relationships:
+      belongsTo: Employee, Shift:Shiftmployee
+
+TimeOffRequest:
+    employee_id : id foreign:employees.id
+    start_time: time
+    end_time: time
+    status: enum:pending,successful,failed
+    softDeletes:
