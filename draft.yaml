@@ -15,8 +15,8 @@ models:
     remember_token: string:100 nullable 
     department_id : id foreign:departments.id nullable 
     Preferences: json
-    # softDeletes 
-    status: enum:pending, approved, banned
+    softDeletes
+    status: enum:pending,approved,banned
     relationships:
       belongsTo: Department
       hasMany: ShiftAssignment, TimeOffRequest
@@ -26,16 +26,16 @@ models:
     name: string:50
     start_time: time
     end_time: time
-    status: enum:pending, approved, canceled
-    softDeletes 
+    softDeletes
+    status: enum:pending,approved,canceled
     relationships:
       hasMany: ShiftAssignment
 
   ShiftAssignment:
     employee_id : id foreign:users.id
     shift_id : id foreign:shifts.id
-    status: enum:pending, approved, canceled
     softDeletes
+    status: enum:pending,approved,canceled
     relationships:
       belongsTo: User, Shift:Shiftmployee
 
@@ -43,7 +43,7 @@ models:
     employee_id : id foreign:users.id
     start_time: dateTime
     end_time: dateTime
-    status: enum:pending, approved, canceled
     softDeletes
+    status: enum:pending,approved,canceled
     relationships:
       belongsTo: User

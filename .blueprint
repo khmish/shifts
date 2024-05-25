@@ -1,0 +1,23 @@
+created:
+    - database/factories/DepartmentFactory.php
+    - database/factories/UserFactory.php
+    - database/factories/ShiftFactory.php
+    - database/factories/ShiftAssignmentFactory.php
+    - database/factories/TimeOffRequestFactory.php
+    - database/migrations/2024_05_25_180749_create_departments_table.php
+    - database/migrations/2024_05_25_180750_create_users_table.php
+    - database/migrations/2024_05_25_180751_create_shifts_table.php
+    - database/migrations/2024_05_25_180752_create_shift_assignments_table.php
+    - database/migrations/2024_05_25_180753_create_time_off_requests_table.php
+    - database/migrations/2024_05_25_180754_create_role_user_table.php
+    - app/Models/Department.php
+    - app/Models/User.php
+    - app/Models/Shift.php
+    - app/Models/ShiftAssignment.php
+    - app/Models/TimeOffRequest.php
+models:
+    Department: { name: 'string:50', manager_id: 'id foreign:users.id nullable', softdeletes: softDeletes, relationships: { hasMany: User } }
+    User: { name: 'string:50', email: 'string:100 unique index', phone: 'string:13 nullable', email_verified_at: 'timestamp nullable', password: 'string:20', remember_token: 'string:100 nullable', department_id: 'id foreign:departments.id nullable', Preferences: json, softdeletes: softDeletes, status: 'enum:pending,approved,banned', relationships: { belongsTo: Department, hasMany: 'ShiftAssignment, TimeOffRequest', belongsToMany: \Spatie\LaravelPermission\Models\Role } }
+    Shift: { name: 'string:50', start_time: time, end_time: time, softdeletes: softDeletes, status: 'enum:pending,approved,canceled', relationships: { hasMany: ShiftAssignment } }
+    ShiftAssignment: { employee_id: 'id foreign:users.id', shift_id: 'id foreign:shifts.id', softdeletes: softDeletes, status: 'enum:pending,approved,canceled', relationships: { belongsTo: 'User, Shift:Shiftmployee' } }
+    TimeOffRequest: { employee_id: 'id foreign:users.id', start_time: dateTime, end_time: dateTime, softdeletes: softDeletes, status: 'enum:pending,approved,canceled', relationships: { belongsTo: User } }
