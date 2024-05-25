@@ -15,7 +15,7 @@ models:
     remember_token: string:100 nullable 
     department_id : id foreign:departments.id nullable 
     Preferences: json
-    softDeletes 
+    # softDeletes 
     status: enum:pending, approved, banned
     relationships:
       belongsTo: Department
