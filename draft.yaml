@@ -1,37 +1,49 @@
 models:
-Department:
+  Department:
     name: string:50
-    manager_id : id foreign:employees.id
-    softDeletes:
+    manager_id : id foreign:users.id nullable
+    softDeletes
     relationships:
-      hasMany: Employee
+      hasMany: User
 
-Employee:
+  User:
     name: string:50
+    email: string:100 unique index
     phone: string:13 nullable 
+    email_verified_at: timestamp nullable 
+    password: string:20 
+    remember_token: string:100 nullable 
     department_id : id foreign:departments.id nullable 
-    Preferences:
-    softDeletes: 
-    status: enum:pending,successful,failed
+    Preferences: json
+    softDeletes 
+    status: enum:pending, approved, banned
     relationships:
       belongsTo: Department
+      hasMany: ShiftAssignment, TimeOffRequest
+      belongsToMany: \Spatie\LaravelPermission\Models\Role
 
-Shift:
+  Shift:
     name: string:50
     start_time: time
     end_time: time
-    status: enum:pending,successful,failed
-    softDeletes: 
-
-ShiftAssignment:
-    employee_id : id foreign:employees.id
-    shift_id : id foreign:shifts.id
+    status: enum:pending, approved, canceled
+    softDeletes 
     relationships:
-      belongsTo: Employee, Shift:Shiftmployee
+      hasMany: ShiftAssignment
 
-TimeOffRequest:
-    employee_id : id foreign:employees.id
-    start_time: time
-    end_time: time
-    status: enum:pending,successful,failed
-    softDeletes:
+  ShiftAssignment:
+    employee_id : id foreign:users.id
+    shift_id : id foreign:shifts.id
+    status: enum:pending, approved, canceled
+    softDeletes
+    relationships:
+      belongsTo: User, Shift:Shiftmployee
+
+  TimeOffRequest:
+    employee_id : id foreign:users.id
+    start_time: dateTime
+    end_time: dateTime
+    status: enum:pending, approved, canceled
+    softDeletes
+    relationships:
+      belongsTo: User

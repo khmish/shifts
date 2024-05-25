@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements FilamentUser
+
+class User extends Authenticatable implements FilamentUser,Auditable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable ,\OwenIt\Auditing\Auditable;
     use HasRoles;
 
     public function canAccessPanel(Panel $panel): bool
