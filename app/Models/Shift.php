@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Shift extends Model
+class Shift extends Model implements Auditable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,\OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +35,6 @@ class Shift extends Model
 
     public function shiftAssignments(): HasMany
     {
-        return $this->hasMany(ShiftAssignment::class);
+        return $this->hasMany(shiftAssignment::class);
     }
 }

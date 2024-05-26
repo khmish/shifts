@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email', 100)->unique()->index();
             $table->string('phone', 13)->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password', 20);
+            $table->string('password');
             $table->rememberToken();
-            $table->json('Preferences');
-            $table->enum('status', ["pending","approved","banned"]);
+            $table->json('Preferences')->nullable();
+            $table->enum('status', ["pending","approved","banned"])->default("pending");
             $table->timestamps();
             $table->softDeletes();
         });
