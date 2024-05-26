@@ -23,7 +23,7 @@ class DepartmentFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'manager_id' => User::factory(),
+            // 'manager_id' => User::factory(),
         ];
     }
 }

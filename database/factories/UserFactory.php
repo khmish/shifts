@@ -21,15 +21,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
-            'email_verified_at' => $this->faker->dateTime(),
-            'password' => $this->faker->password(),
-            'remember_token' => $this->faker->uuid(),
+            'phone' => "05".random_int(11111111,99999999),
+            // 'email_verified_at' => $this->faker->dateTime(),
+            'password' => bcrypt('password'),
+            // 'remember_token' => $this->faker->uuid(),
             'department_id' => Department::factory(),
-            'Preferences' => '{}',
+            // 'Preferences' => '{}',
             'status' => $this->faker->randomElement(["pending","approved","banned"]),
         ];
     }
