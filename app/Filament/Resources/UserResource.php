@@ -21,6 +21,7 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $isCreate = $form->getOperation() === "create";
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
@@ -34,9 +35,12 @@ class UserResource extends Resource
                     ->tel()
                     ->maxLength(13),
                 // Forms\Components\DateTimePicker::make('email_verified_at'),
+                
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
+                    // ->requiredif($isCreate,false)
+                    ->whenTruthy('')
+                    ->visibleOn(['create'])
                     ->maxLength(255),
                 // Forms\Components\TextInput::make('Preferences'),
                 Forms\Components\Select::make('status')
@@ -48,6 +52,11 @@ class UserResource extends Resource
                     ->default('pending'),
                 Forms\Components\Select::make('department_id')
                     ->relationship('department', 'name'),
+                    Forms\Components\CheckboxList::make('roles')
+                    ->relationship('roles', 'name')
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->bulkToggleable(true),
             ]);
     }
 

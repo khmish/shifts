@@ -104,6 +104,7 @@ class ShiftAssignmentResource extends Resource
     {
         return [
             'index' => Pages\ListShiftAssignments::route('/'),
+            'calender' => Pages\ShiftCalender::route('/calender'),
             'create' => Pages\CreateShiftAssignment::route('/create'),
             'edit' => Pages\EditShiftAssignment::route('/{record}/edit'),
         ];
