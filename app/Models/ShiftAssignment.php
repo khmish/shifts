@@ -18,11 +18,11 @@ class ShiftAssignment extends Model implements Auditable
      * @var array
      */
     protected $fillable = [
-        'employee_id',
-        'shift_id',
         'status',
         'user_id',
         'shiftmployee_id',
+        'start',
+        'end',
     ];
 
     /**
@@ -32,10 +32,10 @@ class ShiftAssignment extends Model implements Auditable
      */
     protected $casts = [
         'id' => 'integer',
-        'employee_id' => 'integer',
-        'shift_id' => 'integer',
         'user_id' => 'integer',
         'shiftmployee_id' => 'integer',
+        'start' => 'datetime:Y-m-d',
+        'end' => 'datetime:Y-m-d',
     ];
 
     public function user(): BelongsTo

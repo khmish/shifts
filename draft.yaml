@@ -32,8 +32,8 @@ models:
       hasMany: ShiftAssignment
 
   ShiftAssignment:
-    employee_id : id foreign:users.id
-    shift_id : id foreign:shifts.id
+    start: date nullable
+    end: date nullable
     softDeletes
     status: enum:pending,approved,canceled
     relationships:

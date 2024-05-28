@@ -23,28 +23,26 @@ class ShiftAssignmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'name')
-                    ->preload()
+
+
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
                     ->searchable()
-                    ->required(),
-                Forms\Components\Select::make('shift_id')
                     ->preload()
-                    ->searchable()
-                    ->relationship('shift', 'name')
                     ->required(),
+                Forms\Components\Select::make('shiftmployee_id')
+                    ->relationship('shiftmployee', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                Forms\Components\DatePicker::make('start'),
+                Forms\Components\DatePicker::make('end'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'pending',
                         'approved' => 'approved',
                         'banned' => 'banned',
                     ])
-                    ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('shiftmployee_id')
-                    ->relationship('shiftmployee', 'name')
                     ->required(),
             ]);
     }
@@ -53,19 +51,21 @@ class ShiftAssignmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('shift.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
+
+
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shiftmployee.name')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('start')
+                    ->nullable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('end')
+                    ->nullable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

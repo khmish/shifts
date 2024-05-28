@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use App\Models\Shift;
 use App\Models\ShiftAssignment;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class ShiftAssignmentFactory extends Factory
 {
@@ -22,12 +24,18 @@ class ShiftAssignmentFactory extends Factory
      */
     public function definition(): array
     {
+        $date= Carbon::now();
+        $date->month=7;
+        $date->day=rand(1,28);
+        $users =User::all()->pluck('id')->toArray();
+        $shift =Arr::random([1,2,3]);
+        // dd($users);
         return [
-            'employee_id' => User::factory(),
-            'shift_id' => Shift::factory(),
-            'status' => $this->faker->randomElement(["pending","approved","canceled"]),
-            'user_id' => User::factory(),
-            'shiftmployee_id' => Shift::factory(),
+            'start' => $date->format('Y-m-d'),
+            'end' => $date->addDays($shift==1?1:0)->format('Y-m-d'),
+            'status' => $this->faker->randomElement(["approved"]),
+            'user_id' => Arr::random($users),
+            'shiftmployee_id' => $shift,
         ];
     }
 }

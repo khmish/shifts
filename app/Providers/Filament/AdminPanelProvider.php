@@ -21,24 +21,31 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\App;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        
+
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
+
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            
+            ->plugin(
+                FilamentFullCalendarPlugin::make()
+                    ->schedulerLicenseKey('1')
+                    ->selectable()
+                    ->editable()
+            )
             ->userMenuItems([
                 MenuItem::make()
-                ->label(App::currentLocale()),
+                    ->label(App::currentLocale()),
                 MenuItem::make()
                     ->label('English')
                     ->url(fn () => '/language/en'),

@@ -15,11 +15,11 @@ return new class extends Migration
 
         Schema::create('shift_assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('users');
-            $table->foreignId('shift_id')->constrained();
             $table->enum('status', ["pending","approved","canceled"]);
             $table->foreignId('user_id');
             $table->foreignId('shiftmployee_id');
+            $table->date('start')->nullable();
+            $table->date('end')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

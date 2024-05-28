@@ -15,4 +15,5 @@ class ShiftCalender extends Page
     {
         // $this->record = $this->resolveRecord($record);
     }
+    
 }
