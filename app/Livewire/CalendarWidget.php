@@ -52,7 +52,7 @@ class CalendarWidget extends FullCalendarWidget
 
                 return [
                     'id'    => $shiftAssignment->id,
-                    'title' => $shiftAssignment->user->name,
+                    'title' => "{$shiftAssignment->user->name} - {$shiftAssignment->user->phone} ",
                     'start' => Carbon::parse($shiftAssignment->start)->setTimeFrom($shiftAssignment->shiftmployee->start_time)->toDateTimeString(),
                     'end'   => Carbon::parse($shiftAssignment->end)->setTimeFrom($shiftAssignment->shiftmployee->end_time)->toDateTimeString(),
                     'color' => ($shiftAssignment->shiftmployee_id == 1) ? 'blue' : (($shiftAssignment->shiftmployee_id == 2) ? "#009e0b" : '#f59e0b'),

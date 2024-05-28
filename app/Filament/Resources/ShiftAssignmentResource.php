@@ -60,10 +60,10 @@ class ShiftAssignmentResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start')
-                    ->nullable()
+                    // ->nullable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end')
-                    ->nullable()
+                    // ->nullable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
