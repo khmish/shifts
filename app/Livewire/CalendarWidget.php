@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms;
 
 use Carbon\Carbon;
+use Closure;
 
 class CalendarWidget extends FullCalendarWidget
 {
@@ -28,7 +29,27 @@ class CalendarWidget extends FullCalendarWidget
                 ->preload()
                 ->required(),
             Forms\Components\DatePicker::make('start'),
-            Forms\Components\DatePicker::make('end'),
+            Forms\Components\DatePicker::make('end')
+                ->afterOrEqual('start')
+                ->rules([
+                    function () {
+                        return function (string $attribute, $value, Closure $fail) {
+                            $shiftmployee_id = $this->mountedActionsArguments[0]['event']['extendedProps']['shiftmployee_id'];
+                            
+                            $start = Carbon::parse($this->mountedActionsArguments[0]['event']['start']);
+                            $end = Carbon::parse($value);
+
+                            if ($shiftmployee_id == 1 ||  $shiftmployee_id == 2) {
+                                if ($end->isAfter($start)) {
+                                    # code...
+                                } else {
+                                    
+                                    $fail("The :attribute is should be after this {$start->toDateString()}");
+                                }
+                            }
+                        };
+                    },
+                ]),
             Forms\Components\Select::make('status')
                 ->options([
                     'pending' => 'pending',
@@ -44,7 +65,7 @@ class CalendarWidget extends FullCalendarWidget
         $shiftAssignments = ShiftAssignment::whereHas('shiftmployee', function (Builder $query) use ($fetchInfo) {
             // $query->where('start_time', '>=', $fetchInfo['start'])
             //     ->where('end_time', '<', $fetchInfo['end']);
-                $query; 
+            $query;
         })
             // ->where('shiftmployee_id', 2)
             ->get()
@@ -56,6 +77,7 @@ class CalendarWidget extends FullCalendarWidget
                     'start' => Carbon::parse($shiftAssignment->start)->setTimeFrom($shiftAssignment->shiftmployee->start_time)->toDateTimeString(),
                     'end'   => Carbon::parse($shiftAssignment->end)->setTimeFrom($shiftAssignment->shiftmployee->end_time)->toDateTimeString(),
                     'color' => ($shiftAssignment->shiftmployee_id == 1) ? 'blue' : (($shiftAssignment->shiftmployee_id == 2) ? "#009e0b" : '#f59e0b'),
+                    'shiftmployee_id' => $shiftAssignment->shiftmployee_id,
                     'display'   => 'block',
                 ];
             })

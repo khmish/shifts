@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ShiftAssignmentResource\Pages;
 use App\Filament\Resources\ShiftAssignmentResource\RelationManagers;
 use App\Models\ShiftAssignment;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -36,7 +37,17 @@ class ShiftAssignmentResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\DatePicker::make('start'),
-                Forms\Components\DatePicker::make('end'),
+                Forms\Components\DatePicker::make('end')
+                    ->afterOrEqual('start')->rules([
+                        function () {
+                            return function (string $attribute, $value, Closure $fail) {
+                                dd($value);
+                                // if ($value === 'foo') {
+                                //     $fail('The :attribute is invalid.');
+                                // }
+                            };
+                        },
+                    ]),
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'pending',
@@ -64,6 +75,7 @@ class ShiftAssignmentResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end')
                     // ->nullable()
+
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('created_at')
