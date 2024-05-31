@@ -8,15 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms;
-
+use Filament\Forms\Get;
 use Carbon\Carbon;
 use Closure;
+use Filament\Resources\Resource;
+
 
 class CalendarWidget extends FullCalendarWidget
 {
     public  Model |string | null $model = ShiftAssignment::class;
     public function getFormSchema(): array
     {
+
         return [
             Forms\Components\Select::make('user_id')
                 ->relationship('user', 'name')
@@ -30,27 +33,9 @@ class CalendarWidget extends FullCalendarWidget
                 ->required(),
             Forms\Components\DatePicker::make('start'),
             Forms\Components\DatePicker::make('end')
-                ->afterOrEqual('start')
-                ->rules([
-                    function () {
-                        return function (string $attribute, $value, Closure $fail) {
-                            $shiftmployee_id = $this->mountedActionsArguments[0]['event']['extendedProps']['shiftmployee_id'];
-                            
-                            $start = Carbon::parse($this->mountedActionsArguments[0]['event']['start']);
-                            $end = Carbon::parse($value);
-
-                            if ($shiftmployee_id == 1 ||  $shiftmployee_id == 2) {
-                                if ($end->isAfter($start)) {
-                                    # code...
-                                } else {
-                                    
-                                    $fail("The :attribute is should be after this {$start->toDateString()}");
-                                }
-                            }
-                        };
-                    },
-                ]),
+                ->afterOrEqual('start'),
             Forms\Components\Select::make('status')
+                ->default('approved')
                 ->options([
                     'pending' => 'pending',
                     'approved' => 'approved',

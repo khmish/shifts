@@ -5,9 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ShiftAssignmentResource\Pages;
 use App\Filament\Resources\ShiftAssignmentResource\RelationManagers;
 use App\Models\ShiftAssignment;
+use Carbon\Carbon;
 use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,8 +26,6 @@ class ShiftAssignmentResource extends Resource
     {
         return $form
             ->schema([
-
-
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->searchable()
@@ -39,13 +39,19 @@ class ShiftAssignmentResource extends Resource
                 Forms\Components\DatePicker::make('start'),
                 Forms\Components\DatePicker::make('end')
                     ->afterOrEqual('start')->rules([
-                        function () {
-                            return function (string $attribute, $value, Closure $fail) {
-                                dd($value);
-                                // if ($value === 'foo') {
-                                //     $fail('The :attribute is invalid.');
-                                // }
-                            };
+                        fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                           
+                            $start = Carbon::parse($get('start'));
+                            $end = Carbon::parse($value);
+    
+                            if ($get('$shiftmployee_id') == 1 ||  $get('$shiftmployee_id') == 2) {
+                                if ($end->isAfter($start)) {
+                                    # code...
+                                } else {
+    
+                                    $fail("The :attribute is should be after this ");
+                                }
+                            }
                         },
                     ]),
                 Forms\Components\Select::make('status')

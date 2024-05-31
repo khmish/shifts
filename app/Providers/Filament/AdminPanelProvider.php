@@ -6,8 +6,6 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -43,17 +41,17 @@ class AdminPanelProvider extends PanelProvider
                     ->selectable()
                     ->editable()
             )
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label(App::currentLocale()),
-                MenuItem::make()
-                    ->label('English')
-                    ->url(fn () => '/language/en'),
-                MenuItem::make()
-                    ->label('عربي')
-                    ->url(fn () => '/language/ar'),
-                // ...
-            ])
+            // ->userMenuItems([
+            //     MenuItem::make()
+            //         ->label(App::currentLocale()),
+            //     MenuItem::make()
+            //         ->label('English')
+            //         ->url(fn () => '/language/en'),
+            //     MenuItem::make()
+            //         ->label('عربي')
+            //         ->url(fn () => '/language/ar'),
+            //     // ...
+            // ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
