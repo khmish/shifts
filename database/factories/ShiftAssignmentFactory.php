@@ -25,14 +25,14 @@ class ShiftAssignmentFactory extends Factory
     public function definition(): array
     {
         $date= Carbon::now();
-        $date->month=7;
+        $date->month=6;
         $date->day=rand(1,28);
         $users =User::all()->pluck('id')->toArray();
         $shift =Arr::random([1,2,3]);
         // dd($users);
         return [
             'start' => $date->format('Y-m-d'),
-            'end' => $date->addDays($shift==1?1:0)->format('Y-m-d'),
+            'end' => $date->addDays($shift==1?1:($shift==2?1:0))->format('Y-m-d'),
             'status' => $this->faker->randomElement(["approved"]),
             'user_id' => Arr::random($users),
             'shiftmployee_id' => $shift,

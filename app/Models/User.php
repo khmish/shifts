@@ -15,11 +15,13 @@ use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Models\Role;
 
-class User extends Authenticatable implements FilamentUser,Auditable
+class User extends Authenticatable implements FilamentUser, Auditable
 {
-    use HasFactory, Notifiable ,\OwenIt\Auditing\Auditable;
-    use HasRoles;
-    use SoftDeletes;
+    use HasFactory,
+        Notifiable,
+        \OwenIt\Auditing\Auditable,
+        HasRoles,
+        SoftDeletes;
 
     public function canAccessPanel(Panel $panel): bool
     {
